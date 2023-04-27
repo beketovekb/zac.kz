@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #212529;
+            background-color: #fff;
+            -webkit-text-size-adjust: 100%;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+
+        h1 {
+            font-size: 1.25rem;
+            font-weight: 500;
+        }
+
+        p {
+            font-weight: 500;
+        }
+
+        /* text field */
+        .text-field {
+            margin-bottom: 1rem;
+        }
+
+        .text-field__label {
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .text-field__input {
+            display: block;
+            width: 100%;
+            height: calc(2.25rem + 2px);
+            padding: 0.375rem 0.75rem;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #212529;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #bdbdbd;
+            border-radius: 0.25rem;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+
+        .text-field__input[type="search"]::-webkit-search-decoration,
+        .text-field__input[type="search"]::-webkit-search-cancel-button,
+        .text-field__input[type="search"]::-webkit-search-results-button,
+        .text-field__input[type="search"]::-webkit-search-results-decoration {
+            -webkit-appearance: none;
+        }
+
+        .text-field__input::placeholder {
+            color: #212529;
+            opacity: 0.4;
+        }
+
+        .text-field__input:focus {
+            color: #212529;
+            background-color: #fff;
+            border-color: #bdbdbd;
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem rgba(158, 158, 158, 0.25);
+        }
+
+        .text-field__input:disabled,
+        .text-field__input[readonly] {
+            background-color: #f5f5f5;
+            opacity: 1;
+        }
+
+        /* with floating label */
+        .text-field_floating-2 {
+            position: relative;
+        }
+
+        .text-field_floating-2 .text-field__input {
+            height: calc(2.5rem + 2px);
+            padding: 0.5rem 0.75rem;
+        }
+
+        .text-field_floating-2 .text-field__label {
+            position: absolute;
+            top: 50%;
+            left: 0.3125rem;
+            display: flex;
+            transform: translateY(-50%);
+            pointer-events: none;
+            border: none;
+            background-color: #fff;
+            color: #757575;
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+            transition: top 0.1s ease-in-out, scale 0.1s ease-in-out;
+        }
+
+        .text-field_floating-2 .text-field__input::-moz-placeholder {
+            color: transparent;
+        }
+
+        .text-field_floating-2 .text-field__input::placeholder {
+            color: transparent;
+        }
+
+        .text-field_floating-2 .text-field__input:focus~.text-field__label,
+        .text-field_floating-2 .text-field__input:not(:placeholder-shown)~.text-field__label {
+            top: 0;
+            transform: translateY(-50%) scale(0.75);
+        }
+    </style>
+</head>
+
+<body onload="checkAuth();">
+    <header style="background:url(/cabinet/usercabinet/img/main-menu-bg.jpg) center no-repeat; background-size: cover;">
+        <div class="container">
+            <div class="wrap">
+                <div class="logo" style="background: url(/cabinet/usercabinet/img/header-logo-bg.png)">
+                    <img src="img/logo.svg" alt="">
+                    <span>Обслуживание
+                        <br> кондиционеров</span>
+                </div>
+                <div class="right_content">
+                    <div class="name_button">
+                        <a href="index.html" class="cabinet_btn" style="color: rgb(255, 255, 255);">Отзыв</a>
+                        <a onclick="exi();" class="cabinet_btn" style="color: rgb(255, 255, 255);">Выход</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Выберите фотографию</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form id="imageForm">
+                        <input type="file" id="imageInput" accept="image/*">
+                        <button type="submit" id="image-submit" class="btn btn-primary" data-target="#exampleModalCenter">Загрузить изображение</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+
+    </header>
+    <section>
+        <div class="container">
+            <div class="feedback">
+                <h2 class="fb_header">Ваш аккаунт</h2>
+                <div class="fb_content">
+                    <span class="fb_title">Настройки</span>
+
+                    <div class="fb_card">
+                        <div class="">
+                            <img src="img/unnamed.jpg" alt="" style="width: 20%;">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                                Выбрать фото
+                              </button>
+                        </div>
+                        
+                        <div class="text-field text-field_floating-2" style="max-width: 40%;">
+                            <input class="text-field__input" type="email" id="email" name="email"
+                                placeholder="вашапочта@gmail.com">
+                            <label class="text-field__label" for="email">Email</label>
+                        </div>
+                        <div class="text-field text-field_floating-2" style="max-width: 40%;">
+                            <input class="text-field__input" type="text" id="nameuser" name="nameuser"
+                                placeholder="Введите ваше имя">
+                            <label class="text-field__label" for="text">Введите имя</label>
+                        </div>
+                        <div class="text-field text-field_floating-2" style="max-width: 40%;">
+                            <input class="text-field__input" type="tel" id="userphone" name="userphone"
+                                placeholder="+7 000 000 00 00">
+                            <label class="text-field__label" for="text">Номер телефона</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-storage.js"></script>
+    <script src="js/fbinit.js"></script>
+    <script src="js/imgupdate.js"></script>
+</body>
+
+</html>
